@@ -76,10 +76,9 @@ fig3_b<- data.frame(
 fig3_bt<-t(fig3_b)
 colnames(fig3_bt) <- fig3_bt[1, ]
 
-# 去掉第一行，它已经被用作列名
+
 fig3_bt <- fig3_bt[-1, ]
 
-# 将数据转换为数据框
 fig3_bt <- as.data.frame(fig3_bt, stringsAsFactors = FALSE)
 fig3_bt$index <- rownames(fig3_bt)
 fig3_bd<-melt(fig3_bt,id.vars = "index")
@@ -122,10 +121,10 @@ fig3_c<- data.frame(
 fig3_ct<-t(fig3_c)
 colnames(fig3_ct) <- fig3_ct[1, ]
 
-# 去掉第一行，它已经被用作列名
+# 
 fig3_ct <- fig3_ct[-1, ]
 
-# 将数据转换为数据框
+# 
 fig3_ct <- as.data.frame(fig3_ct, stringsAsFactors = FALSE)
 fig3_ct$index <- rownames(fig3_ct)
 fig3_cd<-melt(fig3_ct,id.vars = "index")
@@ -167,10 +166,10 @@ fig3_d<- data.frame(
 fig3_dt<-t(fig3_d)
 colnames(fig3_dt) <- fig3_dt[1, ]
 
-# 去掉第一行，它已经被用作列名
+# 
 fig3_dt <- fig3_dt[-1, ]
 
-# 将数据转换为数据框
+# 
 fig3_dt <- as.data.frame(fig3_dt, stringsAsFactors = FALSE)
 fig3_dt$index <- rownames(fig3_dt)
 fig3_dd<-melt(fig3_dt,id.vars = "index")
@@ -214,10 +213,10 @@ fig3_e<-  data <- data.frame(
 fig3_et<-t(fig3_e)
 colnames(fig3_et) <- fig3_et[1, ]
 
-# 去掉第一行，它已经被用作列名
+# 
 fig3_et <- fig3_et[-1, ]
 
-# 将数据转换为数据框
+# 
 fig3_et <- as.data.frame(fig3_et, stringsAsFactors = FALSE)
 fig3_et$index <- rownames(fig3_et)
 fig3_ed<-melt(fig3_et,id.vars = "index")
@@ -256,7 +255,7 @@ ggsave(pdf_file, plot = total, width =12, height = 8.5)  # 设置宽度和高度
 
 
 
-# 设置新的主题
+# 
 library(ggthemr)
 ############
 tableau_colours <- c('#1F77B4', '#FF7F0E', '#2CA02C', '#D62728', '#9467BD', '#8C564B', '#CFECF9', '#7F7F7F', '#BCBD22', '#17BECF')
@@ -277,7 +276,7 @@ p1<-ggplot(data=fig3_ad, aes(variable, value, fill=index)) +
   geom_bar(position="stack", stat="identity") +
   xlab("") + 
   ylab("Production (M t)") +
-  theme(axis.title.y=element_text(hjust=1, vjust=0)) +  # 调整y轴标签位置
+  theme(axis.title.y=element_text(hjust=1, vjust=0)) +  
   theme(legend.position="top", legend.direction="horizontal") +
   guides(fill=guide_legend(nrow=1, bycol=TRUE)) +
   theme(panel.grid.major.x=element_line(color="gray", size=0.5)) +

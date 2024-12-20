@@ -1,5 +1,5 @@
 rm(list=ls())
-fig1a<-read.csv("C:/Users/张宇洋/Desktop/fig1.a.csv")
+fig1a<-read.csv(file.choose())#fig1.a
 str(fig1a)
 library(reshape2)
 long_data <- melt(fig1a, id.vars = "年份",
@@ -26,7 +26,7 @@ p1<-ggplot(data=long_data,aes(x=年份,y=生产力,color=池塘类型,fill=池�
                                    size = 18))+xlab("Years")+ylab("Pond Productivity (t/ha)")
 
 p1
-fig1b<-read.csv("C:/Users/张宇洋/Desktop/fig1.b.csv")
+fig1b<-read.csv(file.choose())#fig1.b
 str(fig1b)
 library(reshape2)
 long_datab <- melt(fig1b, id.vars = "年份",
@@ -61,7 +61,7 @@ p2
 library(reshape2)
 library(tidyverse)
 my_pal <- rcartocolor::carto_pal(n = 8, name = "Bold")[c(1, 3, 7, 2)]
-pie(rep(1,8), col=sample(my_pal, 8))
+# pie(rep(1,8), col=sample(my_pal, 8))
 
 fig1c <- data.frame(
     能耗 = c("平均", "标准差"),
@@ -190,17 +190,17 @@ p5
 
 ######################################
 fig1_f <- data.frame(
-    能耗 = c("Extensive", "Semi-intensive", "RAS", "Net cage"),
-    MJ_per_kg = c(6.15, 71.93, 94.83, 40.82),
-    鱼能耗标准差 = c(6.39, 5.91, 86.6, 18.3)
+    能耗 = c("FAP", "Tanks", "FEN"),
+    MJ_per_kg = c(1.332, 31.176, 11.376)
+    # 鱼能耗标准差 = c(6.39, 5.91, 86.6, 18.3)
   )
 
 fig1_f
-fig1_f$能耗<-factor(fig1_f$能耗,levels=c("Extensive","Semi-intensive","RAS","Net cage" ))
+fig1_f$能耗<-factor(fig1_f$能耗,levels=c("FAP", "Tanks", "FEN" ))
 p6<-ggplot(fig1_f, aes(x = 能耗, y = MJ_per_kg, fill = 能耗)) +
-  geom_col(position = "dodge", width = 0.8)+ylim(-1,200) +
+  geom_col(position = "dodge", width = 0.8)+ylim(-1,50) +
   scale_fill_manual(values = my_pal, guide = "none")+
-  geom_errorbar(aes(ymin = MJ_per_kg-鱼能耗标准差, ymax = MJ_per_kg+鱼能耗标准差), width = 0.25,linewidth=1)+
+  # geom_errorbar(aes(ymin = MJ_per_kg-鱼能耗标准差, ymax = MJ_per_kg+鱼能耗标准差), width = 0.25,linewidth=1)+
   theme_classic()+
   theme(axis.title.x =element_text(size=18), axis.title.y=element_text(size=18),
         axis.text=element_text(size=16))+
@@ -217,17 +217,17 @@ p6
 
 
 fig1_g <- data.frame(
-  排N = c("Extensive", "Semi-intensive", "RAS", "Net cage"),
-  g_per_kg = c(46.57, 57.02, 63.43, 66.44),
-  鱼N排放标准差 = c(15.1, 32.5, 27, 26.99)
+  排N = c("FAP", "Tanks", "FEN"),
+  g_per_kg = c(6.377, 27.348, 74.571),
+  鱼N排放标准差 = c(6.432, 27.057, 3.912)
 )
 
 
 fig1_g
-fig1_g$排N<-factor(fig1_g$排N,levels=c("Extensive","Semi-intensive","RAS","Net cage" ))
+fig1_g$排N<-factor(fig1_g$排N,levels=c("FAP", "Tanks", "FEN" ))
 
 p7<-ggplot(fig1_g, aes(x = 排N, y = g_per_kg, fill = 排N)) +
-  geom_col(position = "dodge", width = 0.8)+ylim(0,100) +
+  geom_col(position = "dodge", width = 0.8)+ylim(0,80) +
   scale_fill_manual(values = my_pal, guide = "none")+
   geom_errorbar(aes(ymin = g_per_kg-鱼N排放标准差, ymax = g_per_kg+鱼N排放标准差), width = 0.25,linewidth=1)+
   theme_classic()+
@@ -240,15 +240,97 @@ p7<-ggplot(fig1_g, aes(x = 排N, y = g_per_kg, fill = 排N)) +
   theme(legend.text = element_text(face = "italic",
                                    family = "Times",
                                    colour = "black", 
-                                   size = 18))+xlab("")+ylab("TP discharge (g/Kg)")
+                                   size = 18))+xlab("")+ylab("TN discharge (g/Kg)")
 
 p7
 
 
 
-################图合并
-library(patchwork)
 
-(p1+p2+plot_layout(guides = 'collect'))/(p3+p4+p5)/(p6+p7)+ plot_annotation(tag_levels = 'A')
 
+fig1_H <- data.frame(
+  排P = c("FAP", "Tanks", "FEN"),
+  g_per_kg = c(0.873, 5.94, 11.731),
+  鱼P排放标准差 = c(1.204, 6.856, 1.851)
+)
+
+
+fig1_H
+fig1_H$排P<-factor(fig1_H$排P,levels=c("FAP", "Tanks", "FEN" ))
+
+p8<-ggplot(fig1_H, aes(x = 排P, y = g_per_kg, fill = 排P)) +
+  geom_col(position = "dodge", width = 0.8)+ylim(0,15) +
+  scale_fill_manual(values = my_pal, guide = "none")+
+  geom_errorbar(aes(ymin = pmax(g_per_kg - 鱼P排放标准差, 0), ymax = g_per_kg+鱼P排放标准差), width = 0.25,linewidth=1)+
+  theme_classic()+
+  theme(axis.title.x =element_text(size=18), axis.title.y=element_text(size=18),
+        axis.text=element_text(size=16))+
+  theme(legend.title=element_text(face="italic",
+                                  family="Times",
+                                  colour="black", 
+                                  size=18))+
+  theme(legend.text = element_text(face = "italic",
+                                   family = "Times",
+                                   colour = "black", 
+                                   size = 18))+xlab("")+ylab("TP discharge (g/Kg)")
+
+p8
+
+################combine
+
+data <- data.frame(
+  species = c("shrimp", "shrimp", "shrimp", "shrimp", "shrimp", "shrimp",
+              "fish", "fish", "fish", "fish", "fish", "fish"),
+  production = c(4439791000, 4439791000, 4439791000, 1766331000, 1766331000, 1766331000,
+                 27715920000, 27715920000, 27715920000, 2057102000, 2057102000, 2057102000),
+  edible_portion = c(0.57, 0.57, 0.57, 0.57, 0.57, 0.57,
+                     0.52, 0.52, 0.52, 0.61, 0.61, 0.61),
+  GHG_total = c(17.94252737, 9.793734967, 23.81370699, 7.309430944, 3.100970704, 0.171157474,
+                75.08797046, 8.64736704, 135.6195397, 8.432472518, 2.635147662, 1.003865776),
+  GHG_sectors = c("feed", "energy", "aquatic", "feed", "energy", "aquatic",
+                  "feed", "energy", "aquatic", "feed", "energy", "aquatic"),
+  field = c("freshwater", "freshwater", "freshwater", "mariculture", "mariculture", "mariculture",
+            "freshwater", "freshwater", "freshwater", "mariculture", "mariculture", "mariculture")
+)
+
+
+shrimp_data <- data %>% filter(species == "shrimp")
+fish_data <- data %>% filter(species == "fish")
+p9 <- ggplot(shrimp_data, aes(x = field, y = GHG_total, fill = GHG_sectors)) +
+  geom_bar(stat = "identity", position = "stack", width = 0.7) +
+  labs(
+    title = expression("GHG Emissions - Shrimp (CO"[2] * "e)"),
+    x = "",
+    y = expression("GHG Total (MtCO"[2] * "e)")
+  )  +
+  scale_fill_brewer(palette = "Set2", name = "GHG Sectors") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.text = element_text(size = 12),
+    legend.title = element_text(size = 14)
+  )
+
+p9
+
+p10 <- ggplot(fish_data, aes(x = field, y = GHG_total, fill = GHG_sectors)) +
+  geom_bar(stat = "identity", position = "stack", width = 0.7) +
+  labs(
+    title = expression("GHG Emissions - Fish (CO"[2] * "e)"),
+    x = "Field",
+    y = expression("GHG Total (MtCO"[2] * "e)")
+  ) +
+  scale_fill_brewer(palette = "Set2", name = "GHG Sectors") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.text = element_text(size = 12),
+    legend.title = element_text(size = 14)
+  )
+
+p10
 
